@@ -1,10 +1,15 @@
 from flask import Flask, request
 from pymessenger.bot import Bot
+from Processor import get_tagged, get_category
+from nltk import ne_chunk, pos_tag, word_tokenize
+from nltk import Tree
+
+import requests
 
 
 app = Flask(__name__)
-ACCESS_TOKEN = 'ACCESS_TOKEN' #get from fb developer's app page
-VERIFY_TOKEN = 'VERIFY_TOKEN' #make up a string here
+ACCESS_TOKEN = YOUR_ACCESS_TOKEN #get from fb developer's app page
+VERIFY_TOKEN = YOUR_VERIFY_TOKEN
 bot = Bot(ACCESS_TOKEN)
 
 @app.route('/', methods=['GET', 'POST'])
@@ -24,11 +29,11 @@ def receive_message():
                     #Facebook Messenger ID for user so we know where to send response back to
                     recipient_id = message['sender']['id']
                     if message['message'].get('text'):
-                        response_sent_text = get_message()
+                        response_sent_text = get_message(message['message'].get('text'))
                         send_message(recipient_id, response_sent_text)
                     #if user sends us a GIF, photo,video, or any other non-text item
                     if message['message'].get('attachments'):
-                        response_sent_nontext = get_message()
+                        response_sent_nontext = get_message('hi') #fix this part
                         send_message(recipient_id, response_sent_nontext)
     return "Message Processed"
 
@@ -44,8 +49,11 @@ def send_message(recipient_id, response):
     bot.send_text_message(recipient_id, response)
     return "success"
 
-def get_message(input):
+def get_message(input): #add one argument input
+    tagged = get_tagged(input)
+    category = get_category(tagged)
+    GPEs = get_GPEs(tagged)
+    return query(GPEs, category)
 
-
-if __name__ == '__main__': 
+if __name__ == '__main__':
     app.run()
