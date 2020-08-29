@@ -7,8 +7,8 @@ from nltk import ne_chunk, pos_tag, word_tokenize
 from nltk import Tree
 
 app = Flask(__name__)
-ACCESS_TOKEN = 'EAAiUFw6zDccBAPjtjmAHh4uvxGabdrNjLUzCZCZAyrs6Q6O1DgHEeHlvdCR0keg3vyHr7W2ZBcXK4zzC2asXXjzHZCLs8I6gSk0YiFagtFhKXCixI2Oe7ZBaK8R5RiXcvjjQlGh8yrOi5a8uat6K2yzUjTJcL5DAmf33gsWu3nwZDZD'
-VERIFY_TOKEN = 'codeologysp2020angelatravelchatbot'
+ACCESS_TOKEN = 
+VERIFY_TOKEN = 
 bot = Bot(ACCESS_TOKEN)
 
 @app.route("/", methods=['GET', 'POST'])
